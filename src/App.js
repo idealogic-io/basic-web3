@@ -100,9 +100,13 @@ const App = () => {
     }
   }, [web3Api, shouldReload]);
 
-  const connectWallet = () => {
+  const connectWallet = async () => {
     if (web3Api.web3) {
-      web3Api.provider.request({ method: "eth_requestAccounts" });
+      try {
+        await web3Api.provider.request({ method: "eth_requestAccounts" });
+      } catch (error) {
+        console.warn("Error while activate metamask.", error);
+      }
     } else {
       console.warn("Please install metamask");
     }
